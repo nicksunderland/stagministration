@@ -9,11 +9,42 @@ knitr::opts_chunk$set(
 )
 ```
 
-### Coming soon 
-
-```{r, echo=FALSE}
+```{r, include=FALSE}
 library(readxl)
+library(kableExtra)
+library(data.table)
 
-accommodation <- read_xlsx("data.xlsx", sheet = "accommodation")
-accommodation
+accommodation <- read_xlsx("data.xlsx", sheet = "accommodation") |> as.data.table()
+```
+
+```{r, echo=FALSE, results='asis'}
+
+for (i in 1:nrow(accommodation)) {
+  
+  # the row
+  accomm_info <- accommodation[i]
+  
+  # Get the image path (assuming the image file is in 'images' folder)
+  img_path <- paste0("images/", accomm_info$name, ".png")
+  cat("<div style='text-align: center;'><img src='", img_path, "' width='600px' /></div>\n\n")
+  
+  
+  # wrangle table
+  accomm_info[, cost := NULL]
+  accomm_info[, name := NULL] #stringr::str_to_title(name)]
+  row_names <- as.list(stringr::str_to_sentence(gsub("_"," ", names(accomm_info))))
+  accomm_info <- as.data.table(t(accomm_info))
+  accomm_info <- cbind(row_names, accomm_info)
+  
+  # Render the table
+  cat(kbl(accomm_info, 
+          format = "html", 
+          escape = FALSE,
+          full_width = F,
+          col.names = c("", "")) |> 
+      kable_styling() |>
+      column_spec(1, bold = TRUE), "\n\n")
+  
+  cat("---\n\n")  # Add a separator between sections
+}
 ```

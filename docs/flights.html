@@ -29,6 +29,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -222,6 +225,75 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
 
 </head>
 
@@ -229,6 +301,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -295,23 +377,397 @@ $(document).ready(function () {
 </div>
 
 
-<div id="coming-soon" class="section level3">
-<h3>Coming soon</h3>
-<pre><code>#&gt; # A tibble: 6 × 7
-#&gt;   type  flight_no airline         dep_airport dep_datetime        arr_airport arr_datetime       
-#&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;       &lt;dttm&gt;              &lt;chr&gt;       &lt;dttm&gt;             
-#&gt; 1 out   EZY2891   EasyJet         Bristol     2025-06-12 06:00:00 Split       2025-06-12 09:30:00
-#&gt; 2 out   EZY8599   EasyJet         Gatwick     2025-06-12 05:55:00 Split       2025-06-12 09:35:00
-#&gt; 3 out   EZY8599   EasyJet         Gatwick     2025-06-13 06:00:00 Split       2025-06-13 09:35:00
-#&gt; 4 back  WEPJEG    British Airways Split       2025-06-16 16:30:00 Heathrow    2025-06-16 18:15:00
-#&gt; 5 back  EZY860    EasyJet         Split       2025-06-15 20:30:00 Gatwick     2025-06-15 22:10:00
-#&gt; 6 back  EZY2892   EasyJet         Split       2025-06-16 10:20:00 Bristol     2025-06-16 12:10:00</code></pre>
-<p><img src="images/easyjet.png" alt="Easyjet" /> <img
-src="images/british_airways.jpg" alt="British Airways" /></p>
+<div id="flights-out" class="section level2">
+<h2><strong>Flights OUT</strong></h2>
+<div id="EZY2891" class="section level3">
+<h3><strong>EZY2891 - Bristol ➡️ Split</strong></h3>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Flight no
+</td>
+<td style="text-align:left;">
+EZY2891
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Airline
+</td>
+<td style="text-align:left;">
+<img src="images/easyjet.png" width="50px">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Dep airport
+</td>
+<td style="text-align:left;">
+Bristol
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Dep datetime
+</td>
+<td style="text-align:left;">
+2025-06-12 06:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Arr airport
+</td>
+<td style="text-align:left;">
+Split
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Arr datetime
+</td>
+<td style="text-align:left;">
+2025-06-12 09:30:00
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="EZY8599" class="section level3">
+<h3><strong>EZY8599 - Gatwick ➡️ Split</strong></h3>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Flight no
+</td>
+<td style="text-align:left;">
+EZY8599
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Airline
+</td>
+<td style="text-align:left;">
+<img src="images/easyjet.png" width="50px">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Dep airport
+</td>
+<td style="text-align:left;">
+Gatwick
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Dep datetime
+</td>
+<td style="text-align:left;">
+2025-06-12 05:55:00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Arr airport
+</td>
+<td style="text-align:left;">
+Split
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Arr datetime
+</td>
+<td style="text-align:left;">
+2025-06-12 09:35:00
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="EZY8595" class="section level3">
+<h3><strong>EZY8595 - Gatwick ➡️ Split</strong></h3>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Flight no
+</td>
+<td style="text-align:left;">
+EZY8595
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Airline
+</td>
+<td style="text-align:left;">
+<img src="images/easyjet.png" width="50px">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Dep airport
+</td>
+<td style="text-align:left;">
+Gatwick
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Dep datetime
+</td>
+<td style="text-align:left;">
+2025-06-13 06:00:00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Arr airport
+</td>
+<td style="text-align:left;">
+Split
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Arr datetime
+</td>
+<td style="text-align:left;">
+2025-06-13 09:35:00
+</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</div>
+<div id="flights-back" class="section level2">
+<h2><strong>Flights BACK</strong></h2>
+<div id="WEPJEG" class="section level3">
+<h3><strong>WEPJEG - Split ➡️ Heathrow</strong></h3>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Flight no
+</td>
+<td style="text-align:left;">
+WEPJEG
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Airline
+</td>
+<td style="text-align:left;">
+<img src="images/british_airways.jpg" width="50px">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Dep airport
+</td>
+<td style="text-align:left;">
+Split
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Dep datetime
+</td>
+<td style="text-align:left;">
+2025-06-16 16:30:00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Arr airport
+</td>
+<td style="text-align:left;">
+Heathrow
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Arr datetime
+</td>
+<td style="text-align:left;">
+2025-06-16 18:15:00
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="EZY860" class="section level3">
+<h3><strong>EZY860 - Split ➡️ Gatwick</strong></h3>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Flight no
+</td>
+<td style="text-align:left;">
+EZY860
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Airline
+</td>
+<td style="text-align:left;">
+<img src="images/easyjet.png" width="50px">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Dep airport
+</td>
+<td style="text-align:left;">
+Split
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Dep datetime
+</td>
+<td style="text-align:left;">
+2025-06-15 20:30:00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Arr airport
+</td>
+<td style="text-align:left;">
+Gatwick
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Arr datetime
+</td>
+<td style="text-align:left;">
+2025-06-15 22:10:00
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="EZY2892" class="section level3">
+<h3><strong>EZY2892 - Split ➡️ Bristol</strong></h3>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Flight no
+</td>
+<td style="text-align:left;">
+EZY2892
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Airline
+</td>
+<td style="text-align:left;">
+<img src="images/easyjet.png" width="50px">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Dep airport
+</td>
+<td style="text-align:left;">
+Split
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Dep datetime
+</td>
+<td style="text-align:left;">
+2025-06-16 10:20:00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Arr airport
+</td>
+<td style="text-align:left;">
+Bristol
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+Arr datetime
+</td>
+<td style="text-align:left;">
+2025-06-16 12:10:00
+</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -344,6 +800,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

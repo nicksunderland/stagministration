@@ -19,6 +19,9 @@ library(kableExtra)
 library(data.table)
 
 people <- read_xlsx("data.xlsx", sheet = "people") |> as.data.table()
+flights <- read_xlsx("data.xlsx", sheet = "flights") |> as.data.table()
+people[flights, out_flight_info := paste0(i.dep_airport, " (", dep_datetime, ") "), on=c("flight_out"="flight_no")]
+people[flights, back_flight_info := paste0(i.dep_airport, " (", dep_datetime, ") "), on=c("flight_back"="flight_no")]
 ```
 
 
@@ -29,7 +32,7 @@ for (i in 1:nrow(people)) {
   cat("### ", people$name[i], "\n\n")
   
   # Get the image path (assuming the image file is in 'images' folder)
-  img_path <- paste0("images/", people$name[i], ".jpg")
+  img_path <- paste0("images/", people$name[i], ".png")
   
   # Check if the image exists, render it centered if it does
   if (file.exists(img_path)) {
@@ -39,18 +42,22 @@ for (i in 1:nrow(people)) {
   }
   
   # Add emojis to the flight details
-  flight_out_emoji <- paste0("✈️ ", people$flight_out[i])
-  flight_back_emoji <- paste0("🛬 ", people$flight_back[i])
+
 
   # Create a table with person information
-  person_info <- data.table(
-    "Flight Out" = flight_out_emoji,
-    "Flight Back" = flight_back_emoji
-  )
+  person_info <- people[i, ]
+  setnames(person_info, "nick_flights_cost", "cost")
+  person_info[, cost := ifelse(!is.na(cost), sprintf("£ %.2f", cost), "£ -")]
+  person_info[, repaid := fcase(is.na(repaid), "N/A",
+                                repaid==TRUE, "✅", 
+                                repaid==FALSE, "❌")]
+  person_info[, flight_out := paste0("✈️ <a href='flights.html#", flight_out, "'>", flight_out, " - ",out_flight_info, "</a>")]
+  person_info[, flight_back := paste0("🛬  <a href='flights.html#", flight_back, "'>", flight_back, " - ",back_flight_info, "</a>")]
+  person_info[, c("out_flight_info","back_flight_info") := NULL]
   
-  # Transpose the table to make columns as rows
-  person_info <- as.data.table(t(people[i,]))
-  person_info <- cbind(as.list(names(people)), person_info)
+  row_names <- as.list(stringr::str_to_title(gsub("_"," ", names(person_info))))
+  person_info <- as.data.table(t(person_info))
+  person_info <- cbind(row_names, person_info)
   
   # Render table below the image
   cat(kbl(person_info, 

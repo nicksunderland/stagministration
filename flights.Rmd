@@ -1,26 +1,74 @@
 ---
 title: "Flights"
+output:
+  html_document:
+    toc: true
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  toc = TRUE
 )
 ```
 
-### Coming soon 
-
-```{r, echo=FALSE}
+```{r, include=FALSE}
 library(readxl)
+library(kableExtra)
+library(data.table)
 
-flights <- read_xlsx("data.xlsx", sheet = "flights")
-flights
+flights <- read_xlsx("data.xlsx", sheet = "flights") |> as.data.table()
 ```
 
-![Easyjet](images/easyjet.png)
-![British Airways](images/british_airways.jpg)
+```{r, echo=FALSE, results='asis'}
+get_airline_logo <- function(airline) {
+  logo_path <- switch(airline, 
+                      "British Airways" = "images/british_airways.jpg",
+                      "EasyJet" = "images/easyjet.png")
+  if (file.exists(logo_path)) {
+    return(paste0("<img src='", logo_path, "' width='50px'>"))  # HTML image tag
+  } else {
+    return(airline)  # Default to text if no image is found
+  }
+}
 
-```{r setup, include=FALSE}
-#library(stagministration)
+for (flight_type in c("out", "back")) {
+  cat("## **Flights ", toupper(flight_type), "**\n\n", sep="")
+  
+  subset_flights <- flights[type == flight_type]
+  
+  for (i in 1:nrow(subset_flights)) {
+    
+      # Create a table with flight details
+    flight_info <- subset_flights[i]
+    flight_info[, airline := get_airline_logo(airline)]
+    flight_info[, type:= NULL]
+    
+    # Render Flight Number as a Title
+    cat("### **", 
+        flight_info$flight_no, " - ", 
+        flight_info$dep_airport, " ➡️ ",
+        flight_info$arr_airport,
+        "** {#",  flight_info$flight_no, "}\n\n", sep="")
+    
+      
+    row_names <- as.list(stringr::str_to_sentence(gsub("_"," ", names(flight_info))))
+    flight_info <- as.data.table(t(flight_info))
+    flight_info <- cbind(row_names, flight_info)
+    
+    # Render the table
+    cat(kbl(flight_info, 
+            format = "html", 
+            escape = FALSE,
+            full_width = F,
+            col.names = c("", "")) |> 
+        kable_styling() |>
+        column_spec(1, bold = TRUE), "\n\n")
+    
+  }
+  cat("---\n\n")  # Add a separator between sections
+}
 ```
+
+
