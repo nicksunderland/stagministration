@@ -30,9 +30,21 @@ Any issues, let me know on Whatsapp or nicholas.p.sunderland@gmail.com.
 
 <div style="text-align: center;">
   <a aria-label="Chat on WhatsApp" href="https://wa.me/447882937843?text=I've%20got%20a%20problem%2E%2E%2E">
-    <img alt="Chat on WhatsApp" src="images/whatsapp.png" />
+    <img alt="Chat on WhatsApp" src="images/whatsapp.png" style="width: 300px; height: auto; max-width: 100%;" />
   </a>
 </div>
 
+<br>
+<br>
+
+<div style="text-align: center;">
+Or on the Whatsapp group... 
+</div>
+
+<div style="text-align: center;">
+  <a aria-label="Chat on WhatsApp" href="https://chat.whatsapp.com/BCGVZJnvRx37EOOpESOL3M">
+    <img alt="Chat on WhatsApp" src="images/whatsapp_group.jpeg" style="width: 300px; height: auto; max-width: 100%;" />
+  </a>
+</div>
 
 
