@@ -1,0 +1,19 @@
+---
+title: "Accommodation"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+### Coming soon 
+
+```{r, echo=FALSE}
+library(readxl)
+
+accommodation <- read_xlsx("data.xlsx", sheet = "accommodation")
+accommodation
+```

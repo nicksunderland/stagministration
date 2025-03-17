@@ -1,0 +1,66 @@
+---
+title: "People"
+output:
+  html_document:
+    toc: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  toc = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include=FALSE}
+library(readxl)
+library(kableExtra)
+library(data.table)
+
+people <- read_xlsx("data.xlsx", sheet = "people") |> as.data.table()
+```
+
+
+```{r, echo=FALSE, results='asis'}
+for (i in 1:nrow(people)) {
+  
+  # Render Name as a Title
+  cat("### ", people$name[i], "\n\n")
+  
+  # Get the image path (assuming the image file is in 'images' folder)
+  img_path <- paste0("images/", people$name[i], ".jpg")
+  
+  # Check if the image exists, render it centered if it does
+  if (file.exists(img_path)) {
+    cat("<div style='text-align: center;'><img src='", img_path, "' width='150px' /></div>\n\n")
+  } else {
+    cat("<div style='text-align: center;'><img src='images/Anyone.jpg' width='150px' /></div>\n\n")
+  }
+  
+  # Add emojis to the flight details
+  flight_out_emoji <- paste0("✈️ ", people$flight_out[i])
+  flight_back_emoji <- paste0("🛬 ", people$flight_back[i])
+
+  # Create a table with person information
+  person_info <- data.table(
+    "Flight Out" = flight_out_emoji,
+    "Flight Back" = flight_back_emoji
+  )
+  
+  # Transpose the table to make columns as rows
+  person_info <- as.data.table(t(people[i,]))
+  person_info <- cbind(as.list(names(people)), person_info)
+  
+  # Render table below the image
+  cat(kbl(person_info, 
+          format = "html", 
+          escape = F, 
+          col.names = c("",""),
+          full_width = F) |> 
+      kable_styling() |> 
+      column_spec(1, bold = TRUE), "\n\n")
+  
+  cat("---\n\n")
+}
+```

@@ -1,0 +1,26 @@
+---
+title: "Flights"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+### Coming soon 
+
+```{r, echo=FALSE}
+library(readxl)
+
+flights <- read_xlsx("data.xlsx", sheet = "flights")
+flights
+```
+
+![Easyjet](images/easyjet.png)
+![British Airways](images/british_airways.jpg)
+
+```{r setup, include=FALSE}
+#library(stagministration)
+```

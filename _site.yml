@@ -1,0 +1,32 @@
+title: "Stagministration"
+#favicon: resources/favicon.ico
+output_dir: "docs"
+output:
+  html_document:
+    css: style.css
+    toc: false
+    toc_float:
+      collapsed: false
+    theme: simplex
+navbar:
+  title: "Stagministration"
+  left:
+    - text: "Home"
+      icon: fa-home
+      href: index.html
+    - text: "People"
+      icon: fa-solid fa-person
+      href: people.html
+    - text: "Flights"
+      icon: fa-solid fa-plane-departure
+      href: flights.html
+    - text: "Accommodation"
+      icon: fa-solid fa-house
+      href: accommodation.html
+
+  right:
+    - icon: fa-brands fa-whatsapp
+      href: https://chat.whatsapp.com/BCGVZJnvRx37EOOpESOL3M
+      aria-label: whatsapp
+
+
