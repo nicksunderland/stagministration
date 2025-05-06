@@ -51,6 +51,9 @@ for (i in 1:nrow(people)) {
   person_info[, repaid := fcase(is.na(repaid), "N/A",
                                 repaid==TRUE, "✅", 
                                 repaid==FALSE, "❌")]
+  person_info[, accomm_cost := sprintf("£ %.2f", accomm_cost)]
+  person_info[, accomm_repaid := fcase(accomm_repaid==TRUE, "✅", 
+                                       accomm_repaid==FALSE, "❌")]
   person_info[, flight_out := paste0("✈️ <a href='flights.html#", flight_out, "'>", flight_out, " - ",out_flight_info, "</a>")]
   person_info[, flight_back := paste0("🛬  <a href='flights.html#", flight_back, "'>", flight_back, " - ",back_flight_info, "</a>")]
   person_info[, c("out_flight_info","back_flight_info") := NULL]
