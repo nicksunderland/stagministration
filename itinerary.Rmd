@@ -19,6 +19,7 @@ library(kableExtra)
 library(data.table)
 library(ggplot2)
 library(ggrepel)
+library(plotly)
 
 timeline <- read_xlsx("data.xlsx", sheet = "timeline") |> as.data.table()
 flights  <- read_xlsx("data.xlsx", sheet = "flights") |> as.data.table()
@@ -42,11 +43,11 @@ timeline[, item_fct := factor(item_fct, levels = unique(item_fct[order(datetime_
 ```
 
 ## Itinerary
-```{r, echo=FALSE, fig.align='center', out.width="100%"}
+```{r, echo=FALSE, fig.align='center', out.width="100%", message=FALSE, warning=FALSE}
 
 day_starts <- unique(timeline[, .(day_start = as.POSIXct(as.Date(datetime_from)))])
 
-ggplot() +
+p <- ggplot() +
   geom_vline(
     data = day_starts,
     aes(xintercept = as.numeric(day_start)),
@@ -54,12 +55,14 @@ ggplot() +
   ) +
   geom_segment(
       data = timeline[type == "bar"],
-      aes(x = datetime_from, xend = datetime_to, y = item_fct, yend = item_fct, color = item_fct),
+      aes(x = datetime_from, xend = datetime_to, y = item_fct, yend = item_fct, color = item_fct, 
+          text = paste("Item:", item, "<br>From:", datetime_from, "<br>To:", datetime_to)),
       linewidth = 4, lineend = "round"
   ) +
   geom_point(data = timeline[type == "point"],
-             aes(x = datetime_from, y = item_fct, color = item_fct),
-             size = 3) +
+             aes(x = datetime_from, y = item_fct, color = item_fct, 
+                 text = paste("Item:", item, "<br>Time:", datetime_from)),
+                 size = 3) +
   scale_x_datetime(
     date_breaks = "12 hour",
     date_labels = "%b %d %H:%M",
@@ -76,6 +79,7 @@ ggplot() +
     panel.grid = element_blank()
   )
 
+ggplotly(p, tooltip = "text")
 ```
 
 ## Dates & times
