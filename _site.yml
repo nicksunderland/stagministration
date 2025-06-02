@@ -14,6 +14,9 @@ navbar:
     - text: "Home"
       icon: fa-home
       href: index.html
+    - text: "Itinerary"
+      icon: fa-calendar-alt
+      href: itinerary.html
     - text: "People"
       icon: fa-solid fa-person
       href: people.html

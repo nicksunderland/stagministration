@@ -1,0 +1,92 @@
+---
+title: "Itinerary"
+output:
+  html_document:
+    toc: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  toc = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include=FALSE, echo=FALSE}
+library(readxl)
+library(kableExtra)
+library(data.table)
+library(ggplot2)
+library(ggrepel)
+
+timeline <- read_xlsx("data.xlsx", sheet = "timeline") |> as.data.table()
+flights  <- read_xlsx("data.xlsx", sheet = "flights") |> as.data.table()
+people   <- read_xlsx("data.xlsx", sheet = "people") |> as.data.table()
+people[flights, `:=`(flight_out_datetime = i.dep_datetime), on=c("flight_out"="flight_no")]
+people[flights, `:=`(flight_back_datetime = i.dep_datetime), on=c("flight_back"="flight_no")]
+timeline <- rbind(
+  timeline, 
+  people[, .(day = NA_character_, datetime_from = flight_out_datetime, datetime_to = flight_out_datetime, item = paste0(name, " - flight"))][!is.na(datetime_from)],
+  people[, .(day = NA_character_, datetime_from = flight_back_datetime, datetime_to = flight_back_datetime, item = paste0(name, " - flight"))][!is.na(datetime_from)]
+)
+
+timeline[, item_fct := as.factor(fcase(
+  grepl("Ferry", item), "Ferrys", 
+  grepl("flight", item), "Flights",
+  grepl(".*", item), item
+))]
+
+timeline[, type := fcase(datetime_from == datetime_to, "point", default = "bar")]
+timeline[, item_fct := factor(item_fct, levels = unique(item_fct[order(datetime_from)]))]
+```
+
+## Itinerary
+```{r, echo=FALSE, fig.align='center', out.width="100%"}
+
+day_starts <- unique(timeline[, .(day_start = as.POSIXct(as.Date(datetime_from)))])
+
+ggplot() +
+  geom_vline(
+    data = day_starts,
+    aes(xintercept = as.numeric(day_start)),
+    color = "grey60", linetype = "dashed", linewidth = 0.5
+  ) +
+  geom_segment(
+      data = timeline[type == "bar"],
+      aes(x = datetime_from, xend = datetime_to, y = item_fct, yend = item_fct, color = item_fct),
+      linewidth = 4, lineend = "round"
+  ) +
+  geom_point(data = timeline[type == "point"],
+             aes(x = datetime_from, y = item_fct, color = item_fct),
+             size = 3) +
+  scale_x_datetime(
+    date_breaks = "12 hour",
+    date_labels = "%b %d %H:%M",
+    expand = expansion(mult = c(0.02, 0.02))
+  ) +
+  scale_y_discrete(limits = rev(levels(timeline$item_fct))) +
+  scale_color_brewer(palette = "Set2") + 
+  theme_classic(base_size = 14) +
+  guides(color="none") +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.title.x = element_blank(),
+    panel.grid = element_blank()
+  )
+
+```
+
+## Dates & times
+```{r, echo=FALSE, results='asis'}
+# Render the table
+cat(kbl(timeline[, .(item, datetime_from, datetime_to)], 
+        format = "html", 
+        escape = FALSE,
+          full_width = F,
+          col.names = c("Item", "Start", "End")) |> 
+      kable_styling() |>
+      column_spec(1, bold = TRUE), "\n\n")
+  
+```
