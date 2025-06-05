@@ -25,7 +25,8 @@ flights <- read_xlsx("data.xlsx", sheet = "flights") |> as.data.table()
 get_airline_logo <- function(airline) {
   logo_path <- switch(airline, 
                       "British Airways" = "images/british_airways.jpg",
-                      "EasyJet" = "images/easyjet.png")
+                      "EasyJet" = "images/easyjet.png",
+                      "?" = "images/plane.jpg")
   if (file.exists(logo_path)) {
     return(paste0("<img src='", logo_path, "' width='50px'>"))  # HTML image tag
   } else {
